@@ -22,7 +22,7 @@ db.connect(err => {
     console.log('MySQL Connected')
 });
 
-//Creating GET Router to fetch all the learner details from the MySQL Database
+//GET Router to fetch all users
 app.get('/learner', (req, res) => {
     db.query('SELECT * FROM learnerdetails', (err, rows, fields) => {
         if (!err)
@@ -32,7 +32,7 @@ app.get('/learner', (req, res) => {
     })
 });
 
-//Router to GET specific learner detail from the MySQL database
+//Router to GET single user details
 app.get('/learner/:id', (req, res) => {
     db.query(`SELECT * FROM learnerdetails WHERE learner_id = ${req.params.id}`, (err, rows, fields) => {
         if (!err)
@@ -42,7 +42,7 @@ app.get('/learner/:id', (req, res) => {
     })
 });
 
-//Router to INSERT/POST a learner's detail
+//Router to INSERT/POST
 app.post('/learner', (req, res) => {
     let learner = req.body;
     var sql = 
@@ -62,7 +62,7 @@ app.post('/learner', (req, res) => {
     })
     });
 
-//Router to UPDATE a learner's detail
+//Router to UPDATE
 app.put('/learner', (req, res) => {
     let learner = req.body;
     var sql = 
@@ -78,6 +78,17 @@ app.put('/learner', (req, res) => {
     console.log(err);
     })
     });
+
+//Router to DELETE
+app.delete('/learner/:id', (req, res) => {
+    db.query(`DELETE FROM learnerdetails WHERE learner_id = ${req.params.id}`, [req.params.id], (err, rows, fields) => {
+    if (!err)
+    res.send('Learner Record deleted successfully.');
+    else
+    console.log(err);
+    })
+    });
+    
     
 
 app.listen('3000', () => {
